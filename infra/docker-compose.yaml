@@ -1,0 +1,8 @@
+version: "3.2"
+services:
+  redis:
+      image: redis
+      hostname: redis
+      container_name: s3xy_redis
+      ports:
+        - "6379:6379"

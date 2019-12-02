@@ -1,0 +1,5 @@
+FROM registry.access.redhat.com/rhceph/rhceph-3-rhel7:3-16
+
+ADD docker_exec.sh /docker_exec.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

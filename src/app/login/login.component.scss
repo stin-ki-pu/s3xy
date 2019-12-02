@@ -1,0 +1,34 @@
+@import "../../../varibales.scss";
+
+.login-form {
+  width: 30%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  padding: 0;
+  border-radius: 3px;
+
+  mat-card-title {
+    background-color: $primary;
+    padding: 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  mat-card-content {
+    padding: 15px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  mat-card-actions {
+    padding: 15px;
+    button {
+        display: block;
+        margin: 0 auto;
+    }
+  }
+}

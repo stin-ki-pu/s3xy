@@ -1,0 +1,19 @@
+<mat-card class="login-form">
+  <mat-card-title color="primary">
+    <span>Login</span>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>Access Key</mat-label>
+      <input [(value)]="accessKey" matInput required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Secret Key</mat-label>
+      <input [(value)]="secretKey" matInput required type="password" />
+    </mat-form-field>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <button (click)="login()" mat-raised-button color="primary">Login</button>
+  </mat-card-actions>
+</mat-card>
