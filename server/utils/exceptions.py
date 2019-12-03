@@ -16,6 +16,11 @@ class ApiBadRequest(ApiException):
         super(ApiBadRequest, self).__init__(status_code=400, message=message)
 
 
+class ApiUnauthorized(ApiException):
+    def __init__(self, message=''):
+        super(ApiUnauthorized, self).__init__(status_code=401, message=message)
+
+
 class ApiNotFound(ApiException):
     def __init__(self, message=''):
         super(ApiNotFound, self).__init__(status_code=404, message=message)

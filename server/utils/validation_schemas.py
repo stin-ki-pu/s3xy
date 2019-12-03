@@ -12,3 +12,14 @@ schemas["login"] = {
     'required': ['access-key', 'secret-key'],
     "additionalProperties": False
 }
+
+schemas['create_bucket'] = {
+    "type": "object",
+    "properties": {
+        "bucket_name": {
+            "type": "string"
+        }
+    },
+    'required': ['bucket_name'],
+    "additionalProperties": False
+}
