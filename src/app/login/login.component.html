@@ -5,11 +5,12 @@
   <mat-card-content>
     <mat-form-field>
       <mat-label>Access Key</mat-label>
-      <input [(value)]="accessKey" matInput required />
+      <input [(ngModel)]="accessKey" matInput required />
+      <mat-error *ngIf="errorMessage != ''">{{errorMessage}}</mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field hintLabel="Don't tell you secret key to anyone!">
       <mat-label>Secret Key</mat-label>
-      <input [(value)]="secretKey" matInput required type="password" />
+      <input [(ngModel)]="secretKey" matInput required type="password" />
     </mat-form-field>
   </mat-card-content>
   <mat-divider></mat-divider>

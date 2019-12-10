@@ -1,16 +1,25 @@
 import { Injectable } from '@angular/core';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'}), withCredentials: true};
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class DataService {
 
   accessKey: string;
   secretKey: string;
   s3: S3;
-  constructor() { }
+  serverEndpoint = 'http://127.0.0.1:1607';
+  cephEndpoint = 'http://127.0.0.1:80';
+
+  constructor(private http: HttpClient) { }
 
   connect(accessKey, secretKey) {
     this.accessKey = accessKey;
@@ -19,16 +28,34 @@ export class DataService {
       endpoint: 'http://127.0.0.1:80',
       credentials: new AWS.Credentials(this.accessKey, this.secretKey)
     });
+    return from(
+      this.http.post(
+        this.serverEndpoint + '/api/login',
+        {'access-key': this.accessKey, 'secret-key': this.secretKey},
+        httpOptions).toPromise()
+    );
   }
 
-  listBuckets() {
-    return from(this.s3.listBuckets().promise());
+  listBuckets(): Observable<any> {
+    return from(this.http.get(this.serverEndpoint + '/api/buckets', httpOptions));
   }
 
-  createBucket(bucketName) {
-    return from(this.s3.createBucket({
-      Bucket: bucketName
-    }).promise());
+  createBucket(bucketName: string) {
+    return from(
+      this.http.post(this.serverEndpoint + '/api/buckets', { name: bucketName }, httpOptions).toPromise()
+    );
+  }
+
+  deleteBucket(bucketName: string) {
+    return from(
+      this.http.delete(this.serverEndpoint + '/api/buckets/' + bucketName, httpOptions).toPromise()
+    );
+  }
+
+  getBucketInfo(bucketName: string) {
+    return from(
+      this.http.get(`${this.serverEndpoint}/api/buckets/${bucketName}`, httpOptions).toPromise()
+    );
   }
 
 

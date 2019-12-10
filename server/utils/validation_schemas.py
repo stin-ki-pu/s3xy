@@ -16,10 +16,10 @@ schemas["login"] = {
 schemas['create_bucket'] = {
     "type": "object",
     "properties": {
-        "bucket_name": {
+        "name": {
             "type": "string"
         }
     },
-    'required': ['bucket_name'],
+    'required': ['name'],
     "additionalProperties": False
 }

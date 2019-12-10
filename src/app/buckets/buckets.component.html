@@ -1,0 +1,49 @@
+<div id="main" *ngIf="loaded else loader">
+
+    <div id="bucket-list" class="centered">
+        <ng-container *ngFor="let bucket of buckets">
+            <mat-card  class="bucket" >
+                <mat-card-title><span><i class="fab fa-bitbucket"></i>  {{ bucket.Name }}</span><button mat-button (click)="deleteBucket(bucket.Name)" class="delete-button"><i class="far fa-trash-alt"></i></button></mat-card-title>
+                <mat-card-content>
+                    <table>
+                        <tr><td>Created at</td><td>{{ bucket.created_at }}</td></tr>
+                    <ng-container *ngIf="bucket.info">
+                        <tr><td>Size</td><td>{{ bucket.info.Size | filesize}}</td></tr>
+                        <tr><td>Objects</td><td>{{ bucket.info.Length }}</td></tr>
+                    </ng-container>
+                    </table>
+                    <div *ngIf="bucket.info == undefined">
+                        <mat-progress-spinner diameter="30" class="info-loader" mode="indeterminate"></mat-progress-spinner>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+        <div id="createFlipped">
+            <mat-card class="front">
+                <mat-card-actions class="create-actions">
+                    <button (click)="flip()" class="flip-button" mat-button><i class="fas fa-plus"></i></button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card class="back create-bucket-card">
+                <mat-card-title>Create bucket</mat-card-title>
+                <mat-card-content>
+                    <mat-form-field>
+                        <mat-label>Bucket name</mat-label>
+                        <input [(ngModel)]="createdBucketName" matInput required />
+                        <mat-error *ngIf="errorMessage != ''">{{errorMessage}}</mat-error>
+                    </mat-form-field>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <mat-card-actions>
+                    <button (click)="createBucket()" mat-raised-button color="primary">Create</button>
+                    <button (click)="flip()" mat-raised-button>Cancel</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        
+    </div>
+</div>
+
+<ng-template #loader>
+    <mat-progress-spinner color="primary" class="centered" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -8,8 +9,8 @@ import { DataService } from '../services/data.service';
 export class LoginComponent implements OnInit {
   secretKey: string;
   accessKey: string;
-
-  constructor(private dataService: DataService ) {
+  errorMessage: string;
+  constructor(private dataService: DataService, private router: Router) {
     this.secretKey = '';
     this.accessKey = '';
   }
@@ -17,10 +18,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   login() {
-    this.dataService.connect(this.accessKey, this.secretKey);
-    const buckets = this.dataService.listBuckets();
-    buckets.subscribe((d) => {
-      alert(d);
-    });
+    try {
+      this.dataService.connect(this.accessKey, this.secretKey).subscribe(() => {
+        this.router.navigate(['/buckets']);
+      });
+    } catch (err) {
+      this.errorMessage = err.error;
+    }
   }
 }

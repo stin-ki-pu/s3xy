@@ -1,0 +1,158 @@
+@import "../../../varibales.scss";
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#bucket-list{
+  width: 90%;
+  margin: 15px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.bucket {
+  align-self: flex-start;
+  background-color: $primary;
+  height: 150px;
+  margin: 1.5%;
+  width: 17%;
+  opacity: 0.7;
+  transition: all ease 0.5s;
+  &:hover{
+    opacity: 1;
+    .delete-button {
+      display: inline;
+    }
+  }
+  table {
+    padding: 10px;
+    font-size: 16px;
+    td {
+      width: 25%;
+    }
+  }
+
+  .delete-button {
+    display: none;
+    float: right;
+  }
+}
+
+.danger {
+  background-color: $warn!important;
+}
+
+
+.create-bucket-card{
+  mat-form-field {
+    left: 2.5%;
+    width: 95%;
+  }
+
+  mat-card-actions {
+    display: flex;
+    button {
+        display: block;
+        margin: 0 auto!important;
+        &:hover{
+          opacity: 0.7;
+        }
+    }
+  }
+
+}
+
+.info-loader {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+
+.create-actions {
+  display: inline-block!important;
+  width: 100%;
+  height: 100%;
+}
+
+#createFlipped {
+  perspective: 100%;
+
+  height: 150px;
+  margin: 1.5%;
+  width: 17%;
+  opacity: 0.7;
+  transition: all ease 0.5s;
+
+  -webkit-perspective: 17%;
+  -moz-perspective: 17%;
+  -o-perspective: 17%;
+  perspective: 17%;
+  
+  -webkit-transition: -webkit-transform 1s;
+  -moz-transition: -moz-transform 1s;
+  -o-transition: -o-transform 1s;
+  transition: transform 1s;
+
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+
+  -webkit-transform-origin: 50% 50%;
+  // transform-origin: 50% 50%;
+
+  &.flipped {
+    .front {
+      -webkit-transform: rotateY( 180deg );
+      -moz-transform: rotateY( 180deg );
+      -o-transform: rotateY( 180deg );
+      transform: rotateY( 180deg );
+    }
+    .back {
+      -webkit-transform: rotateY(0);
+      -moz-transform: rotateY(0);
+      -o-transform: rotateY(0);
+      transform: rotateY(0);
+    }
+
+  }
+  .front {
+    background-color: $accent;
+    .mat-card-actions {
+      padding:0!important;
+      margin: 0!important;
+    }
+    .flip-button {
+      opacity: 1;
+      &:hover {
+        opacity: 0.5;
+      }
+      width: 100%;
+      height: 100%;
+      font-size: 50px;
+    }
+  }
+  .back {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+  }
+
+  mat-card {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+
+    transition: all 500ms ease;
+  }
+}

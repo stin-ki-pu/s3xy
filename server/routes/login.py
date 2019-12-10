@@ -17,7 +17,7 @@ def login_route():
 
     # Check if the credentials are valid
     try:
-        CephManager(data['secret-key'], data['access-key'], endpoint="127.0.0.1:8000")
+        CephManager(data['secret-key'], data['access-key'])
     except ClientError:
         session.clear()
         raise ApiUnauthorized("Invalid access-key or secret-key")
