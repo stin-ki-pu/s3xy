@@ -55,10 +55,17 @@ def get_bucket(bucket_name):
     ceph = CephManager.from_session(session=session)
     objects = ceph.list_object(bucket_name)
     if 'Contents' in objects:
-        size = sum(objects['Contents'], lambda obj: obj['size'])
-        length = len(objects['KeyCount'])
+        size = sum(obj['Size'] for obj in objects['Contents'])
+        length = len(objects['Contents'])
     else:
         size = 0
         length = 0
     response_data = dict(Name=bucket_name, Size=size, Length=length)
     return make_response(jsonify(response_data), 200)
+
+
+@buckets.route('/buckets/<bucket_name>/objects', methods=['GET'], strict_slashes=False)
+def get_bucket_objects(bucket_name):
+    ceph = CephManager.from_session(session=session)
+    objects = ceph.list_object(bucket_name)
+    return make_response(jsonify(objects['Contents'] if 'Contents' in objects else []), 200)

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { BucketsComponent } from './buckets/buckets.component';
+import { LoginComponent } from './pages/login/login.component';
+import { BucketsComponent } from './pages/buckets/buckets.component';
+import { BucketComponent } from './pages/bucket/bucket.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'buckets', component: BucketsComponent },
-  { path: '**', component: LoginComponent },
+  { path: 'login', component: LoginComponent, data: {animation: 'Login'} },
+  { path: 'buckets', component: BucketsComponent, data: {animation: 'Buckets'} },
+  { path: 'buckets/:bucket_name', component: BucketComponent, data: {animation: 'Bucket'} },
+  { path: '**', redirectTo: '/login' },
 ];
 
 @NgModule({

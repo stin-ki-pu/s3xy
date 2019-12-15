@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { DeleteBucketModalComponent } from './delete-bucket-modal/delete-bucket-modal.component';
-import { BucketsComponent } from './buckets/buckets.component';
+import { LoginComponent } from './pages/login/login.component';
+import { DeleteBucketModalComponent } from './components/delete-bucket-modal/delete-bucket-modal.component';
+import { BucketsComponent } from './pages/buckets/buckets.component';
+import { BucketComponent } from './pages/bucket/bucket.component';
 
 import { NgxFilesizeModule } from 'ngx-filesize';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,16 +20,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatChipsModule } from '@angular/material/chips';
-import { BucketComponent } from './bucket/bucket.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import { DirectoryComponent } from './components/directory/directory.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule, MatList } from '@angular/material/list';
+import { ObjectInfoModalComponent } from './components/object-info-modal/object-info-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     BucketsComponent,
     DeleteBucketModalComponent,
-    BucketComponent
+    BucketComponent,
+    DirectoryComponent,
+    ObjectInfoModalComponent
   ],
   imports: [
     NgxFilesizeModule,
@@ -45,10 +52,15 @@ import { BucketComponent } from './bucket/bucket.component';
     FormsModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTreeModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatListModule
   ],
   entryComponents: [
-    DeleteBucketModalComponent
+    DeleteBucketModalComponent,
+    ObjectInfoModalComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

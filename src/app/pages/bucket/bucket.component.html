@@ -1,0 +1,10 @@
+<ng-container *ngIf="loaded else loader">
+    <div id="bucket-tree">
+        <mat-accordion>
+            <app-directory [directory]='root' root=true></app-directory>
+        </mat-accordion>
+    </div>
+</ng-container>
+<ng-template #loader class="loader">
+    <mat-progress-spinner color="primary" class="centered" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

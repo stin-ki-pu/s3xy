@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DeleteBucketModalComponent } from '../delete-bucket-modal/delete-bucket-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteBucketModalComponent } from '../../components/delete-bucket-modal/delete-bucket-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -13,7 +14,7 @@ export class BucketsComponent implements OnInit {
   loaded = false;
   buckets: Array<any>;
   createdBucketName = '';
-  constructor(private data: DataService, private dialog: MatDialog, private snack: MatSnackBar) { }
+  constructor(private data: DataService, private dialog: MatDialog, private snack: MatSnackBar, private router: Router) { }
 
   ngOnInit() {
     this.load();
@@ -50,9 +51,10 @@ export class BucketsComponent implements OnInit {
     }
   }
 
-  deleteBucket(bucketName: string) {
-    const dialogRef = this.dialog.open(DeleteBucketModalComponent, {data: bucketName, height: '350px', width: '500px'});
+  deleteBucket(bucketName: string, event: any) {
+    const dialogRef = this.dialog.open(DeleteBucketModalComponent, {data: bucketName, height: 'auto',  width: '500px'});
     dialogRef.afterClosed().subscribe(() => this.load());
+    event.stopPropagation();
   }
 
   flip() {

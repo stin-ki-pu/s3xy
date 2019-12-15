@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DataService } from '../services/data.service';
+import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

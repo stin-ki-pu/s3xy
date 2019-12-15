@@ -1,12 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "../varibales.scss";
 @import '@angular/material/prebuilt-themes/pink-bluegrey.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: hidden}
+// main {
+    // position: absolute;
+    // width: 100%;
+    // // height: 100%;
+
+    // top: 0;
+    // left: 0;
+// }
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .app-container {
     margin: 0;
     width: 100%;
     height: 100%;
+}
+
+  
+
+.danger {
+    background-color: $warn;
+}
+
+.danger-text {
+    color: $warn;
+}
+
+mat-dialog-container {
+    display: inline-block;
+    padding: 0!important;
+    width: 100%;
+    height: auto;
+    overflow: visible!important;
+}
+
+app-bucket {
+    display: block;
+    width: 80%;
+    height: 80%;
 }

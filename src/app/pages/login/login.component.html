@@ -8,7 +8,7 @@
       <input [(ngModel)]="accessKey" matInput required />
       <mat-error *ngIf="errorMessage != ''">{{errorMessage}}</mat-error>
     </mat-form-field>
-    <mat-form-field hintLabel="Don't tell you secret key to anyone!">
+    <mat-form-field hintLabel="Don't tell your secret key to anyone!">
       <mat-label>Secret Key</mat-label>
       <input [(ngModel)]="secretKey" matInput required type="password" />
     </mat-form-field>

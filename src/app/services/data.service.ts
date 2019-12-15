@@ -58,5 +58,11 @@ export class DataService {
     );
   }
 
+  getBucketObjects(bucketName: string) {
+    return from(
+      this.http.get(`${this.serverEndpoint}/api/buckets/${bucketName}/objects`, httpOptions).toPromise()
+    );
+  }
+
 
 }

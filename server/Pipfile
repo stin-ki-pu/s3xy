@@ -10,6 +10,8 @@ flask = "*"
 flask-session = "*"
 jsonschema = "*"
 pytest = "*"
+boto3 = "*"
+redis = "*"
 
 [requires]
 python_version = "3.6"
