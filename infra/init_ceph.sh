@@ -4,4 +4,5 @@ if [ -z './cn' ]; then
 fi
 ./cn cluster start -d /tmp s3xy_ceph
 docker exec -it ceph-nano-s3xy_ceph radosgw-admin user create --uid=s3xy --display-name="S3xy" --access-key s3xyAccessKey --secret-key s3xySecretKey 
+docker exec -it ceph-nano-s3xy_ceph radosgw-admin user create --uid=foobar --display-name="Foobar" --access-key Foo --secret-key Bar
 #docker exec -it ceph-nano-s3xy_ceph radosgw-admin key create --uid=s3xy --key-type=s3 --access-key s3xyAccessKey --secret-key s3xySecretKey

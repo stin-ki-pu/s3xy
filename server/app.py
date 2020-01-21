@@ -1,3 +1,5 @@
+from os import getenv
+
 from flask import Flask, request, session
 from flask_session import Session
 from routes.buckets import buckets
@@ -33,7 +35,7 @@ def create_app(debug=False):
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:4200')
+        response.headers.add('Access-Control-Allow-Origin', getenv('GUI_URL', 'http://localhost:4200'))
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type, *')
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
         response.headers.add('Access-Control-Allow-Credentials', 'true')

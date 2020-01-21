@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
@@ -9,6 +9,9 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { Directory } from 'src/app/components/directory/directory.component';
 import { createOutput } from '@angular/compiler/src/core';
+import { PutObjectModalComponent } from 'src/app/components/put-object-modal/put-object-modal.component';
+import { CreateFolderModalComponent } from 'src/app/components/create-folder-modal/create-folder-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-bucket',
@@ -24,24 +27,28 @@ export class BucketComponent implements OnInit {
   loaded = false;
   treeControl = new NestedTreeControl<Directory>(dir => Object.values(dir.subDirectories));
   dataSource = new MatTreeNestedDataSource<Directory>();
-  constructor(private data: DataService, private dialog: MatDialog, private router: Router, private route: ActivatedRoute) { }
+  currentDir: string;
+  constructor(private data: DataService, private dialog: MatDialog, private router: Router, private route: ActivatedRoute, 
+              private cd: ChangeDetectorRef, private snackBar: MatSnackBar) { }
 
 
   ngOnInit() {
     this.bucketName = this.route.snapshot.paramMap.get('bucket_name');
+    this.currentDir = '';
     this.load();
   }
 
   load() {
-    let bucketInfo = this.data.getBucketInfo(this.bucketName);
-    let bucketObjects = this.data.getBucketObjects(this.bucketName);
-    forkJoin([bucketInfo, bucketObjects]).subscribe(results => {
+    const bucketInfoObservable = this.data.getBucketInfo(this.bucketName);
+    const bucketObjectsObservable = this.data.getBucketObjects(this.bucketName);
+    forkJoin([bucketInfoObservable, bucketObjectsObservable]).subscribe(results => {
       setTimeout(() => {
         this.bucketInfo$ = results[0];
         this.bucketObjects$ = results[1];
         this.root = new Directory('/', null);
         for (const object of this.bucketObjects$) {
-          const path = object['Key'].split('/');
+          const path = object.Key.split('/');
+          object.Name = path[path.length - 1];
           let curPath = this.root;
           for (let i = 0; i < path.length - 1; i++) {
             const folder = path[i];
@@ -52,23 +59,54 @@ export class BucketComponent implements OnInit {
           }
           curPath.objects.push(object);
         }
-        console.log(this.root);
         this.loaded = true;
         this.dataSource.data = Object.values(this.root);
-        /*this.bucketInfo$ = data.buckets;
-        this.buckets.forEach((bucket) => {
-          bucket.created_at = new Date(bucket.CreationDate).toLocaleDateString();
-          setTimeout(() => {
-            this.data.getBucketInfo(bucket.Name).subscribe((bucketInfo) => {
-            bucket.info = bucketInfo;
-              });
-            }, 50);
-        });
-        */
       }, 500);
     });
   }
 
+  changeDir(dir: string) {
+    this.currentDir = dir;
+  }
+
+  getObject(fileName) {
+    window.location.href = this.data.getSignedObjectUrl(this.bucketName, fileName);
+  }
+  uploadObject() {
+    const dialogRef = this.dialog.open(PutObjectModalComponent,
+      {
+        data: { bucketName: this.bucketName, path: this.currentDir},
+        height: 'auto',
+        width: '500px'
+      });
+    dialogRef.afterClosed().subscribe(() => { this.load(); });
+  }
+  deleteObject(objectName) {
+    this.data.deleteObject(this.bucketName, objectName).subscribe(()=> {
+      this.snackBar.open(`Deleted ${objectName} successfully`, 'Dismiss');
+      this.load();
+    },
+    (err) => {
+      this.snackBar.open(`Failed deleting ${objectName}: ${err.error}.`, 'Dismiss');
+    });
+  }
+  createFolder() {
+    const dialogRef = this.dialog.open(CreateFolderModalComponent, { height: 'auto',  width: '500px' });
+    dialogRef.afterClosed().subscribe(foldername => {
+      if (foldername) {
+        let temp = this.root;
+        const path = this.currentDir.split('/');
+        if (path[0] !== '') {
+          for (let i = 0; i < path.length; i++) {
+            temp = temp.subDirectories[path[i]];
+          }
+        }
+        temp.subDirectories[foldername] = new Directory(foldername, temp);
+      }
+      this.root = Object.assign({}, this.root);
+      this.cd.detectChanges();
+    });
+  }
   hasChild(_: number, dir: Directory) { return Object.keys(dir.subDirectories).length > 0; }
 }
 

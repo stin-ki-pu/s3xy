@@ -1,7 +1,6 @@
-from flask import request, session
+from flask import request
 
 from app import app
-from utils.exceptions import ApiUnauthorized, ApiException
 
 
 @app.route('/')
@@ -13,5 +12,6 @@ def hello_world():
 def list_buckets():
     data = request.json()
 
+
 if __name__ == '__main__':
-    app.run('localhost', 1607)
+    app.run("localhost", 1607)

@@ -1,26 +1,29 @@
 <div class='breadcrumbs'>
+    <a (click)="back(-1)">/</a><span class="right-arrow"></span>
     <ng-container *ngFor="let p of currentPath; let i = index"><a (click)="back(i)">{{ p }}</a><span class="right-arrow"></span></ng-container>
 </div>
-
-<div id="folders" *ngIf="subdirs.length != 0">
-    <h3>Folders</h3>
-    <div class="unit">
-        <mat-card (click)="enter(dir)" *ngFor="let dir of subdirs">
-            <mat-card-title ><span><i class="fas fa-folder"></i>  {{ dir.name }}</span></mat-card-title>
-        </mat-card>
-        <div class='empty' *ngFor="let nothing of placeholder"></div>
+<div id="container">
+    <div id="folders" *ngIf="subdirs.length != 0">
+        <h3>Folders</h3>
+        <div class="unit">
+            <mat-card (click)="enter(dir)" *ngFor="let dir of subdirs">
+                <mat-card-title ><span><i class="fas fa-folder"></i>  {{ dir.name }}</span></mat-card-title>
+            </mat-card>
+            <div class='empty' *ngFor="let nothing of placeholderDirs"></div>
+        </div>
     </div>
-</div>
-<mat-divider></mat-divider>
-<div id="objects" *ngIf="directory.objects != 0">
-    <h3>Objects</h3>
-    <div class="unit">
-        <mat-card class='object' *ngFor="let obj of directory.objects">
-            <img mat-card-image>
-            <mat-card-title>
-                <span><i class="far fa-file"></i>  {{ obj.Key }}</span>
+    <mat-divider></mat-divider>
+    <div id="objects" *ngIf="currentDir.objects != 0">
+        <h3>Objects</h3>
+        <div class="unit">
+            <mat-card class='object' *ngFor="let obj of test">
+                <i class="far fa-file"></i> 
+                <span class='object-name'> {{ obj.Name }}</span>
                 <span (click)="info(obj)" class="info-button"><i class="fas fa-info-circle"></i></span>
-            </mat-card-title>
-        </mat-card>
+                <span (click)="callParentGetObject(obj)" class="download-button"><i class="fas fa-cloud-download-alt"></i></span>
+                <span (click)="callParentDeleteObject(obj)" class="delete-button"><i class="fas fa-trash-alt"></i></span>
+            </mat-card>
+            <div class='empty' *ngFor="let nothing of placeholderObjects"></div>
+        </div>
     </div>
 </div>

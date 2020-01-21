@@ -1,8 +1,19 @@
 <ng-container *ngIf="loaded else loader">
+    <mat-sidenav-container class="sidenav">
+        <mat-sidenav>Start</mat-sidenav>
+        <mat-sidenav-content>
+            <div id="menu">
+                <span><h3>{{ bucketInfo$.Name }}</h3></span>
+                <mat-divider></mat-divider>
+                <span><a routerLink="/buckets" mat-button >Back</a></span>
+                <span><button mat-button (click)='uploadObject()'>Upload</button></span>
+                <span><button mat-button (click)='createFolder()'>Create Folder</button></span>
+                <span><a mat-button >Bucket size {{ bucketInfo$.Size | filesize }}</a></span>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
     <div id="bucket-tree">
-        <mat-accordion>
-            <app-directory [directory]='root' root=true></app-directory>
-        </mat-accordion>
+        <app-directory [directory]='root' root=true (getObject)="getObject($event)" (deleteObject)="deleteObject($event)" (dirChanged)="changeDir($event)"></app-directory>
     </div>
 </ng-container>
 <ng-template #loader class="loader">

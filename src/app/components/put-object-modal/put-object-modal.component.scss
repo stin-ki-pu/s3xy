@@ -1,0 +1,74 @@
+@import "../../../../varibales.scss";
+
+.mat-dialog-title {
+    padding: 20px!important;
+    background-color: $primary;
+    padding: 0;
+    margin: 0;
+}
+.mat-dialog-content {
+    margin: 0;
+    padding: 20px;
+    // height: 60%;
+    mat-form-field {
+        width: 100%;
+    }
+    padding-bottom: 20px;
+}
+.mat-dialog-actions {
+    padding: 10px 20px;
+    margin: 0;
+    .close-button {
+        margin-left: auto;
+    }
+}
+
+.uploadfilecontainer {
+    height: 200px;
+    width: 80%;
+    margin: 20px auto;
+    // border: 2px dashed black !important;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0.85!important;
+}
+
+.uploadfilecontainer:hover {
+    cursor: pointer;
+}
+
+.progress {
+    margin-top: 5px;
+}
+
+.file-name {
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #111111;
+    opacity: 0.3;
+    text-align: center;
+    margin: auto;
+}
+
+.files-list {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 10px auto;
+    background: $primary;
+    border-radius: 12px;
+    padding: 5px;
+    color: black;
+}
+
+.files-list .delete-file {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.files-list .delete-file img{
+width:30    px;
+}

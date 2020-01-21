@@ -61,6 +61,8 @@ def get_bucket(bucket_name):
         size = 0
         length = 0
     response_data = dict(Name=bucket_name, Size=size, Length=length)
+    if 'HTTP_ORIGIN' in request.environ:  # Only if the client is a browser this is needed
+        ceph.set_bucket_cors(bucket_name=bucket_name, origins=[request.environ['HTTP_ORIGIN']])
     return make_response(jsonify(response_data), 200)
 
 

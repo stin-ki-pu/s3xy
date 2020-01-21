@@ -1,0 +1,24 @@
+@import "../../../../varibales.scss";
+
+.mat-dialog-title {
+    padding: 20px!important;
+    background-color: $primary;
+    padding: 0;
+    margin: 0;
+}
+.mat-dialog-content {
+    margin: 0;
+    padding: 20px;
+    // height: 60%;
+    mat-form-field {
+        width: 100%;
+    }
+    padding-bottom: 20px;
+}
+.mat-dialog-actions {
+    padding: 10px 20px;
+    margin: 0;
+    .close-button {
+        margin-left: auto;
+    }
+}

@@ -16,6 +16,8 @@ export class DeleteBucketModalComponent {
     if (this.deleteBucketName === this.bucketName)  {
       this.data.deleteBucket(this.bucketName).subscribe(() => {
         this.snackBar.open(`Bucket ${this.bucketName} deleted successfully`, 'OK');
+      }, (err) => {
+        this.snackBar.open(`Error: ${err.error}`, 'Dissmiss', {panelClass: 'danger'});
       });
     } else {
       this.snackBar.open(`Wrong bucket name confirmation (${this.bucketName} != ${this.deleteBucketName})`, 'OK');

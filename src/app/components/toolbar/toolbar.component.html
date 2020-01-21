@@ -1,0 +1,6 @@
+<mat-toolbar id="toolbar" color="primary">
+    <span>S3xy</span>
+    <ng-container *ngIf="data.s3">
+        <span><button mat-button (click)="logout()">Logout</button></span>
+    </ng-container>
+</mat-toolbar>              

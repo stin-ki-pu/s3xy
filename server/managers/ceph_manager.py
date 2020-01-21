@@ -1,3 +1,5 @@
+from os import getenv
+
 import boto3
 from botocore.exceptions import ParamValidationError
 
@@ -5,7 +7,7 @@ from utils.exceptions import ApiNotFound, ApiBadRequest
 
 
 class CephManager:
-    endpoint = '127.0.0.1:8000'
+    endpoint = getenv('S3_ENDPOINT', 'http://127.0.0.1:8000')
 
     def __init__(self, secret_key, access_key):
         """
@@ -16,7 +18,7 @@ class CephManager:
             aws_access_key_id=access_key,
             aws_secret_access_key=secret_key,
             region_name='us-east-1',
-            endpoint_url="http://" + self.endpoint,
+            endpoint_url=self.endpoint,
             use_ssl=False,
             verify=False
         )
@@ -35,17 +37,13 @@ class CephManager:
         except ParamValidationError as e:
             raise ApiBadRequest(e.kwargs['report'])
 
-    # def get_bucket(self, bucket_name):
-    #     try:
-    #         return self.client.Bucket(Bucket=bucket_name)
-    #     except self.client.exceptions.NoSuchBucket:
-    #         raise ApiNotFound(f"Bucket {bucket_name} does not exist.")
-
-    def delete_bucket(self, bucket_name):
+    def delete_bucket(self, bucket_name, force=False):
         try:
             return self.client.delete_bucket(Bucket=bucket_name)
         except self.client.exceptions.NoSuchBucket:
             raise ApiNotFound(f"Bucket {bucket_name} does not exist.")
+        except self.client.exceptions.ClientError:
+            raise ApiBadRequest(f"Bucket {bucket_name} is not empty.")
 
     def set_bucket_cors(self, bucket_name, headers=None, methods=None, origins=None):
         if methods is None:
@@ -59,6 +57,7 @@ class CephManager:
             rules["AllowedMethods"] = methods
         if origins and type(origins) is list:
             rules["AllowedOrigins"] = origins
+        rules['ExposeHeaders'] = ['ETag']
 
         cors_configuration = {'CORSRules': [rules]}
         self.client.put_bucket_cors(Bucket=bucket_name, CORSConfiguration=cors_configuration)

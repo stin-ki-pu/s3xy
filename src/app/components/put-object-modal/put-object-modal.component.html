@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Upload bucket {{ bucketName }}</h1>
+<div mat-dialog-content>
+    <ng-container *ngIf="progrez == undefined else loader">
+        <div class="uploadfilecontainer" (click)="fileInput.click()" dragndrop (fileDropped)="dropFile($event)">
+            <input hidden type="file" #fileInput (change)="dropFile($event.target.files)">
+            <div class='file-name'>Click to selcet or drop file!</div>
+        </div>
+        <div  class="files-list" *ngFor="let file of selectedFiles;let i= index">
+            <p> {{ file.name }} </p>
+            <button class="delete-file" (click)="deleteAttachment(i)" mat-button> Delete </button>
+        </div>
+    </ng-container>
+    <ng-template #loader>
+        <p>Uploading...</p>
+        <mat-divider></mat-divider>
+        <div *ngFor="let prog of progrez; let i = index" class="progress">
+            {{ i }}
+            <label>{{ selectedFiles[i].name }}</label>
+            <mat-progress-bar mode="determinate" color='warn' [value]="prog"></mat-progress-bar>
+        </div>
+    </ng-template>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <button mat-flat-button *ngIf="progrez == undefined" (click)="upload()" color="warn">Upload!</button>
+    <button mat-flat-button *ngIf="isFinished()" mat-dialog-close color="warn">Dismiss</button>
+    <button mat-flat-button *ngIf="progrez == undefined" mat-dialog-close class="close-button" color="accent">Cancel</button>
+</div>

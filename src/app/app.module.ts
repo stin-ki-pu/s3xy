@@ -25,8 +25,20 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { DirectoryComponent } from './components/directory/directory.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule, MatList } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { ObjectInfoModalComponent } from './components/object-info-modal/object-info-modal.component';
+import { ObjectInfoTooltipComponent } from './components/object-info-tooltip/object-info-tooltip.component';
+import { LazyForDirective } from './directives/lazy-for.directive';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { PutObjectModalComponent } from './components/put-object-modal/put-object-modal.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DragndropDirective } from './directives/dragndrop/dragndrop.directive';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CreateFolderModalComponent } from './components/create-folder-modal/create-folder-modal.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +47,13 @@ import { ObjectInfoModalComponent } from './components/object-info-modal/object-
     DeleteBucketModalComponent,
     BucketComponent,
     DirectoryComponent,
-    ObjectInfoModalComponent
+    ObjectInfoModalComponent,
+    ObjectInfoTooltipComponent,
+    LazyForDirective,
+    PutObjectModalComponent,
+    DragndropDirective,
+    CreateFolderModalComponent,
+    ToolbarComponent
   ],
   imports: [
     NgxFilesizeModule,
@@ -56,11 +74,18 @@ import { ObjectInfoModalComponent } from './components/object-info-modal/object-
     MatTreeModule,
     MatIconModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule,
+    MatSidenavModule,
+    MatCheckboxModule,
+    MatProgressBarModule,
+    MatTabsModule
   ],
   entryComponents: [
     DeleteBucketModalComponent,
-    ObjectInfoModalComponent
+    ObjectInfoModalComponent,
+    PutObjectModalComponent,
+    CreateFolderModalComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

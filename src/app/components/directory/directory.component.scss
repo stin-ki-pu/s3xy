@@ -1,18 +1,24 @@
 @import "../../../../varibales.scss";
 
 
-
+#container {
+    height: 80vh;
+    overflow-y:scroll;
+    background-color: #00000010;
+    padding: 10px;
+}
 .unit {
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: space-between;
-
+    flex: 1;
+    overflow: auto;
     .empty {
-        width: 15%;
+        width: 17%;
     }
     mat-card {
-        width: 15%;
+        width: 18%;
         margin-bottom: 2.5%;
         cursor: pointer;
         opacity: 0.5;
@@ -49,7 +55,7 @@
 
 
 .breadcrumbs {
-    font-size: 20px;
+    font-size: 25px;
     color: $accent;
     a {
         display: inline-block;
@@ -73,11 +79,53 @@
     border-right: 3px $accent solid;
     transform: rotate(45deg);
 }
-.info-button {
-    // display: inline-block;
-    position: absolute;
-    right: 0;
-}
+
 .object {
-    height: 20%;
+
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 20%;
+    height: 10vw;
+    text-align: center;
+
+    .fa-file{
+        display: block;
+        font-size: 100px;
+        margin-bottom: 20px;
+    }
+    .info-button {
+        display: none;
+        position: absolute;
+        right: 80px;
+        top: 10px;
+        font-size: 20px;
+    }
+    .download-button {
+        display: none;
+        position: absolute;
+        right: 45px;
+        top: 10px;
+        font-size: 20px;
+    } 
+    .delete-button {
+        display: none;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 20px;
+    } 
+    .object-name {
+        display: inline-block;
+        position: relative;
+        max-width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &:hover{
+        .info-button , .download-button, .delete-button {display: block;}
+    }
 }

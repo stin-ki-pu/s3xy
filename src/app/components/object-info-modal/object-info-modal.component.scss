@@ -8,11 +8,21 @@
 }
 .mat-dialog-content {
     padding: 20px 35px;
-    table {
+    .info-row {
+        display: flex;
+        width: 100%;
         padding: 10px;
         font-size: 16px;
-        td {
-          width: 50%;
+        overflow: hidden;
+        span:nth-child(1n) {
+            width: 30%;
+        }
+        span:nth-child(2n) {
+            width: 70%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
         }
     }
     padding-bottom: 20px;
