@@ -7,18 +7,18 @@ services:
       ports:
         - "6379:6379"
 
-  gui:
-    build:
-      dockerfile: GuiDockerfile
-      context: ../
-    ports:
-      - 80:80
+#  gui:
+#    build:
+#      dockerfile: GuiDockerfile
+#      context: ../
+#    ports:
+#      - 80:80
   server:
     build:
       dockerfile: ServerDockerfile
       context: ../server
     ports:
-      - 1607:80
+      - 80:80
     environment:
       S3_ENDPOINT: 'http://172.17.0.1:8000'
       REDIS_URL: 'redis://172.17.0.1:6379'

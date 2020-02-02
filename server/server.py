@@ -3,12 +3,9 @@ from flask import request
 from app import app
 
 
-@app.route('/')
-def hello_world():
-    return app.send_static_file('index.html')
 
 
-@app.route('/buckets', methods=['POST'])
+@app.route('/buckets', methods=['POST'], strict_slashes=False)
 def list_buckets():
     data = request.json()
 

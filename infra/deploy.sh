@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ../
-sudo npm run build
+sudo ng build --outputPath=./server/static/
 cd ./infra
 docker-compose build 
 docker-compose up -d

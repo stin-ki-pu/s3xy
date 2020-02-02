@@ -17,8 +17,7 @@ export class DataService {
   accessKey: string;
   secretKey: string;
   s3: S3;
-  serverEndpoint = environment.serverEndpoint;
-  cephEndpoint = environment.cephEndpoint;
+  cephEndpoint: string;
 
   constructor(private http: HttpClient) {
     if (sessionStorage.getItem('accessKey')) {
@@ -27,7 +26,7 @@ export class DataService {
     }
   }
 
-  connect(accessKey, secretKey) {
+  async connect(accessKey, secretKey) {
     this.accessKey = accessKey;
     this.secretKey = secretKey;
     sessionStorage.setItem('accessKey', accessKey);
@@ -40,13 +39,13 @@ export class DataService {
         s3ForcePathStyle: true,
       }
     );
+    const promise =  this.http.post('/api/login',
+                                    {'access-key': this.accessKey, 'secret-key': this.secretKey},
+                                    httpOptions).toPromise();
+    await promise;
+    this.cephEndpoint = (await this.getCephEndpoint()).endpoint;
     this.s3 = new S3({ endpoint: this.cephEndpoint });
-    return from(
-      this.http.post(
-        this.serverEndpoint + '/api/login',
-        {'access-key': this.accessKey, 'secret-key': this.secretKey},
-        httpOptions).toPromise()
-    );
+    return from(promise);
   }
 
   logout() {
@@ -56,36 +55,41 @@ export class DataService {
     sessionStorage.clear();
     return from(
       this.http.get(
-        this.serverEndpoint + '/api/logout',
+        '/api/logout',
         httpOptions).toPromise()
     );
   }
 
+
+  getCephEndpoint(): Promise<any> {
+    return this.http.get('/api/endpoint', httpOptions).toPromise();
+  }
+
   listBuckets(): Observable<any> {
-    return from(this.http.get(this.serverEndpoint + '/api/buckets', httpOptions));
+    return from(this.http.get('/api/buckets', httpOptions));
   }
 
   createBucket(bucketName: string) {
     return from(
-      this.http.post(this.serverEndpoint + '/api/buckets', { name: bucketName }, httpOptions).toPromise()
+      this.http.post('/api/buckets', { name: bucketName }, httpOptions).toPromise()
     );
   }
 
   deleteBucket(bucketName: string) {
     return from(
-      this.http.delete(this.serverEndpoint + '/api/buckets/' + bucketName, httpOptions).toPromise()
+      this.http.delete('/api/buckets/' + bucketName, httpOptions).toPromise()
     );
   }
 
   getBucketInfo(bucketName: string) {
     return from(
-      this.http.get(`${this.serverEndpoint}/api/buckets/${bucketName}`, httpOptions).toPromise()
+      this.http.get(`/api/buckets/${bucketName}`, httpOptions).toPromise()
     );
   }
 
   getBucketObjects(bucketName: string) {
     return from(
-      this.http.get(`${this.serverEndpoint}/api/buckets/${bucketName}/objects`, httpOptions).toPromise()
+      this.http.get(`/api/buckets/${bucketName}/objects`, httpOptions).toPromise()
     );
   }
 

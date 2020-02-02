@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  login() {
-    this.dataService.connect(this.accessKey, this.secretKey).subscribe(() => {
+  async login() {
+    (await this.dataService.connect(this.accessKey, this.secretKey)).subscribe(() => {
       this.router.navigate(['/buckets']);
     }, (err) => {
       this.errorMessage = err.error;
