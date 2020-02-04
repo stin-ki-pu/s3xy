@@ -23,8 +23,7 @@ def create_bucket():
     json_schema_validator(data, schema=schemas['create_bucket'])
     ceph = CephManager.from_session(session=session)
     bucket = ceph.create_buckets(bucket_name=data['name'])
-    if 'HTTP_ORIGIN' in request.environ:  # Only if the client is a browser this is needed
-        ceph.set_bucket_cors(bucket_name=data['name'], origins=[request.environ['HTTP_ORIGIN']])
+    set_cors(data['name'])
     return make_response(jsonify(bucket), 200)
 
 
@@ -61,9 +60,14 @@ def get_bucket(bucket_name):
         size = 0
         length = 0
     response_data = dict(Name=bucket_name, Size=size, Length=length)
-    if 'HTTP_HOST' in request.environ:  # Only if the client is a browser this is needed
-        ceph.set_bucket_cors(bucket_name=bucket_name, origins=[request.environ['HTTP_HOST']])
+    set_cors(bucket_name)
     return make_response(jsonify(response_data), 200)
+
+
+def set_cors(bucket_name):
+    ceph = CephManager.from_session(session=session)
+    if 'HTTP_HOST' in request.environ:  # Only if the client is a browser this is needed
+        ceph.set_bucket_cors(bucket_name=bucket_name, origins=['http://' + request.environ['HTTP_HOST']])
 
 
 @buckets.route('/buckets/<bucket_name>/objects', methods=['GET'], strict_slashes=False)
