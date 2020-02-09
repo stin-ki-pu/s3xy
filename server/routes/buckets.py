@@ -67,7 +67,8 @@ def get_bucket(bucket_name):
 def set_cors(bucket_name):
     ceph = CephManager.from_session(session=session)
     if 'HTTP_HOST' in request.environ:  # Only if the client is a browser this is needed
-        ceph.set_bucket_cors(bucket_name=bucket_name, origins=['http://' + request.environ['HTTP_HOST']])
+        ceph.set_bucket_cors(bucket_name=bucket_name, origins=['http://' + request.environ['HTTP_HOST'],
+                                                               'https://' + request.environ['HTTP_HOST']])
 
 
 @buckets.route('/buckets/<bucket_name>/objects', methods=['GET'], strict_slashes=False)
